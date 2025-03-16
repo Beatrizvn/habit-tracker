@@ -12,3 +12,10 @@ export type HabitCompletion = {
   habit_id: number;
   completion_date: string;
 };
+
+export type HabitTracker = {
+  id: number,
+  name: string,
+  category: string,
+  days: boolean[],
+}
