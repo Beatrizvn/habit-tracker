@@ -6,7 +6,9 @@
     "paths": {
       "@/*": ["app/*"],
       "@assets/*": ["assets/*"],
-      "@services/*": ["services/*"]
+      "@services/*": ["services/*"],
+      "@components/*": ["components/*"],
+      "@styles/*": ["styles/*"],
     }
   },
   "include": [

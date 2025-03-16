@@ -3,6 +3,8 @@ import { Ionicons } from "@expo/vector-icons";
 import HomeScreen from "./homeScreen";
 import HabitDetailsScreen from "./habitDetailsScreen";
 import AddHabitScreen from "./addHabitScreen";
+import { StyleSheet, Text, View } from "react-native";
+import theme from "@/styles/Theme";
 
 const Tab = createBottomTabNavigator();
 
@@ -19,12 +21,35 @@ export default function TabNavigator() {
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: "#4CAF50",
+        tabBarActiveTintColor: theme.colors.primary,
         tabBarInactiveTintColor: "gray",
+        tabBarStyle: {
+          backgroundColor: theme.colors.background, // Change this to your desired color
+        },
+        headerShown: false,
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Add Habit" component={AddHabitScreen} />
+      <Tab.Screen
+        name=" "
+        component={AddHabitScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <View
+              style={{
+                width: 60,
+                height: 60,
+                borderRadius: 30,
+                backgroundColor: color,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Ionicons name="add-circle" size={size} color="#fff" />
+            </View>
+          ),
+        }}
+      />
       <Tab.Screen name="Habits Details" component={HabitDetailsScreen} />
     </Tab.Navigator>
   );
