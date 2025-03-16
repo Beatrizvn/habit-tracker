@@ -1,11 +1,14 @@
 import TabNavigator from "@/tabs/TabNavigator";
 import { StyleSheet, Text, View } from "react-native";
 import theme from "./styles/Theme";
+import { SQLiteProvider } from "expo-sqlite/build/hooks";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <TabNavigator />
+      <SQLiteProvider databaseName="habit_tracker.db">
+        <TabNavigator />
+      </SQLiteProvider>
     </View>
   );
 }
