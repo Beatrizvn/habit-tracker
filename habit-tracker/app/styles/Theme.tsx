@@ -1,7 +1,7 @@
 const theme = {
   colors: {
     primary: "#0AA64D",
-    secondary: "##F2C029",
+    secondary: "#F2C029",
     gold: "#D9961A",
     background: "#373737",
     card: "#FFFFFF",

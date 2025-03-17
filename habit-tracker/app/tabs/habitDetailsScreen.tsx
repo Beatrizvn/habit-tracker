@@ -1,10 +1,12 @@
 import ScreenLayout from "@/styles/ScreenLayout";
 import HabitTrackerItem from "@components/HabitTrackerItem";
 import { Text } from "@components/Text";
-import { getHabits, getWeeklyHabitsForTracker } from "@services/queries";
+import { getWeeklyHabitsForTracker } from "@services/queries";
+import { useFocusEffect } from "expo-router/build/useFocusEffect";
 import { useSQLiteContext } from "expo-sqlite/build/hooks";
-import { useEffect, useState } from "react";
-import { FlatList, ScrollView } from "react-native";
+import React from "react";
+import { useState } from "react";
+import { FlatList } from "react-native";
 import { HabitTracker } from "types/HabitTypes";
 
 
@@ -12,13 +14,16 @@ export default function HabitDetailsScreen() {
   const db = useSQLiteContext();
   const [completedHabits, setCompletedHabits] = useState<HabitTracker[]>([]);
 
-  useEffect(() => {
-    const fetchHabits = async () => {
-      const habitsData = await getWeeklyHabitsForTracker(db);
-      setCompletedHabits(habitsData); 
-    };
-    fetchHabits();
-  }, []);
+  const fetchHabits = async () => {
+    const habitsData = await getWeeklyHabitsForTracker(db);
+    setCompletedHabits(habitsData);
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchHabits();
+    }, [])
+  );
 
   return (
     <ScreenLayout>

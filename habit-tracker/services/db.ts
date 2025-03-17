@@ -12,7 +12,7 @@ export const createTables = async (db: SQLiteDatabase) => {
     PRAGMA journal_mode = WAL;
     CREATE TABLE IF NOT EXISTS habits (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT,
+      name TEXT UNIQUE,
       description TEXT,
       goal TEXT,
       goal_count INTEGER,
@@ -22,19 +22,19 @@ export const createTables = async (db: SQLiteDatabase) => {
     CREATE TABLE IF NOT EXISTS habit_completions (
       habit_id INTEGER,
       completion_date TEXT,
-      FOREIGN KEY (habit_id) REFERENCES habits(id)
+      FOREIGN KEY (habit_id) REFERENCES habits(id),
+      UNIQUE (habit_id, completion_date)
     );
   `);
 };
 
-export const addTestHabits = async () => {
-  const db = await openDatabase();
+export const addTestHabits = async (db: SQLiteDatabase) => {
   const habits = [
-    { name: 'Exercitar', description: 'Fazer exercícios físicos', goal: 'daily', goal_count: 7, reminders: '06:00', categories: 'Saúde' },
-    { name: 'Ler', description: 'Ler um livro', goal: 'daily', goal_count: 7, reminders: '20:00', categories: 'Desenvolvimento' },
-    { name: 'Meditar', description: 'Fazer meditação', goal: 'daily', goal_count: 7, reminders: '07:00', categories: 'Saúde' },
-    { name: 'Beber Água', description: 'Beber 2 litros de água por dia', goal: 'daily', goal_count: 7, reminders: '10:00, 14:00, 18:00', categories: 'Saúde' },
-    { name: 'Estudar', description: 'Estudar programação', goal: 'daily', goal_count: 7, reminders: '08:00', categories: 'Desenvolvimento' },
+    { name: 'Exercise', description: 'Do physical exercises', goal: 'weekly', goal_count: 4, reminders: '06:00', categories: 'Health' },
+    { name: 'Read', description: 'Read a book', goal: 'daily', goal_count: 7, reminders: '20:00', categories: 'Development' },
+    { name: 'Meditate', description: 'Practice meditation', goal: 'weekly', goal_count: 5, reminders: '07:00', categories: 'Health' },
+    { name: 'Drink Water', description: 'Drink 2 liters of water per day', goal: 'daily', goal_count: 7, reminders: '10:00, 14:00, 18:00', categories: 'Health' },
+    { name: 'Study', description: 'Study programming', goal: 'weekly', goal_count: 5, reminders: '08:00', categories: 'Development' },
   ];
 
   for (const habit of habits) {
@@ -48,25 +48,19 @@ export const addTestHabits = async () => {
       console.error('Erro ao adicionar hábitos de teste:', error);
     }
   }
-  // console.log('Hábitos de teste adicionados!');
+  console.log('Add habit Test');
 };
 
-export const addTestHabitCompletions = async () => {
-  const db = await openDatabase();
+export const addTestHabitCompletions = async (db: SQLiteDatabase) => {
 
-  // Supondo que os hábitos têm IDs de 1 a 5 (baseado na ordem de inserção)
-  const habitIds = [1, 2, 3, 4, 5]; // Exercitar, Ler, Meditar, Beber Água, Estudar
-
-  // Gerar marcações para os últimos 15 dias (incluindo a semana atual)
-  const today = moment(); // 16 de março de 2025
-  const daysToGenerate = 15; // 15 dias de histórico
+  const habitIds = [1, 2, 3, 4, 5]; 
+  const today = moment(); 
+  const daysToGenerate = 15; 
 
   for (let i = 0; i < daysToGenerate; i++) {
-    const date = moment(today).subtract(i, 'days').format('YYYY-MM-DD'); // Gera datas retrocedendo
+    const date = moment(today).subtract(i, 'days').format('YYYY-MM-DD'); 
 
-    // Para cada dia, decidir quais hábitos foram completados (aleatoriamente, pra simular uso real)
     for (const habitId of habitIds) {
-      // Probabilidade de 70% de completar o hábito (pra não ser 100% preenchido)
       const shouldComplete = Math.random() > 0.3;
 
       if (shouldComplete) {
@@ -76,17 +70,32 @@ export const addTestHabitCompletions = async () => {
             [habitId, date]
           );
         } catch (error) {
-          console.error(`Erro ao adicionar conclusão para habit_id ${habitId} na data ${date}:`, error);
+          console.error(`Error to add habit completion, habit_id ${habitId} in date ${date}:`, error);
         }
       }
     }
   }
+  console.log('Add Test Completions!');
+};
 
-  // console.log('Conclusões de teste adicionadas à tabela habit_completions!');
+export const resetDatabase = async (db: SQLiteDatabase) => {
+  try {
+    await db.execAsync('PRAGMA foreign_keys=OFF;'); // Disable foreign keys temporarily
+    await db.execAsync('DELETE FROM habits;');
+    await db.execAsync('DELETE FROM habit_completions;');
+    await db.execAsync('DELETE FROM sqlite_sequence WHERE name = "habits";'); // Reset habits sequence
+    await db.execAsync('DELETE FROM sqlite_sequence WHERE name = "habit_completions";'); // Reset completions sequence
+    await db.execAsync('PRAGMA foreign_keys=ON;'); // Re-enable foreign keys
+    console.log('Database reset completed successfully and ID sequences reinitialized!');
+  } catch (error) {
+    console.error('Error during database reset:', error);
+  }
 };
 
 export const initializeDatabase = async (db: SQLiteDatabase) => {
+  // await resetDatabase(db);
   await createTables(db); 
-  // await addTestHabitCompletions();
+  // await addTestHabits(db);
+  // await addTestHabitCompletions(db);
 };
 

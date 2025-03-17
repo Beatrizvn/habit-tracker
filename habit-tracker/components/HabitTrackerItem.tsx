@@ -5,7 +5,7 @@ import theme from '@/styles/Theme';
 import { HabitTracker } from 'types/HabitTypes';
 
 const HabitTrackerItem = ({ name, category, days }: HabitTracker ) => {
-  const weekDays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
+  const weekDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
   return (
     <View style={styles.container}>
@@ -19,7 +19,7 @@ const HabitTrackerItem = ({ name, category, days }: HabitTracker ) => {
             <View
               style={[
                 styles.circle,
-                { backgroundColor: days[index] ? theme.colors.primary : '#444' }, // Verde se preenchido, cinza se não
+                { backgroundColor: days[index] ? theme.colors.primary : '#444' },
               ]}
             />
             <Text style={styles.dayText}>{day}</Text>
