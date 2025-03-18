@@ -46,7 +46,7 @@ export const MarkAsCompleted = ({ habit, onClick }: MarkAsCompletedProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#222",
+    backgroundColor: theme.colors.darker_background,
     borderWidth: 1,
     borderColor: theme.colors.primary,
     borderRadius: 8,

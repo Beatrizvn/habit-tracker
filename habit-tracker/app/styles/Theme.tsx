@@ -4,6 +4,8 @@ const theme = {
     secondary: "#F2C029",
     gold: "#D9961A",
     background: "#373737",
+    lighter_background: "#444444",
+    darker_background: "#222222",
     card: "#FFFFFF",
     text: "#F2F2F2",
     danger: "#FF3D00",

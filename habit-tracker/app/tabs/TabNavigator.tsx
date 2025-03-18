@@ -45,7 +45,7 @@ export default function TabNavigator() {
                 alignItems: "center",
               }}
             >
-              <Ionicons name="add-circle" size={size} color="#fff" />
+              <Ionicons name="add-circle" size={size} color={theme.colors.lighter_background} />
             </View>
           ),
         }}

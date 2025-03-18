@@ -19,7 +19,7 @@ const HabitTrackerItem = ({ name, category, days }: HabitTracker ) => {
             <View
               style={[
                 styles.circle,
-                { backgroundColor: days[index] ? theme.colors.primary : '#444' },
+                { backgroundColor: days[index] ? theme.colors.primary : theme.colors.lighter_background },
               ]}
             />
             <Text style={styles.dayText}>{day}</Text>
@@ -32,7 +32,7 @@ const HabitTrackerItem = ({ name, category, days }: HabitTracker ) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#222',
+    backgroundColor: theme.colors.darker_background,
     borderWidth: 1,
     borderColor: theme.colors.primary,
     borderRadius: 8,
