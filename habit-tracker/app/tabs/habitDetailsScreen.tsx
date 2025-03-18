@@ -9,7 +9,6 @@ import { useState } from "react";
 import { FlatList } from "react-native";
 import { HabitTracker } from "types/HabitTypes";
 
-
 export default function HabitDetailsScreen() {
   const db = useSQLiteContext();
   const [completedHabits, setCompletedHabits] = useState<HabitTracker[]>([]);
