@@ -1,10 +1,10 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import HomeScreen from "./homeScreen";
-import HabitDetailsScreen from "./habitDetailsScreen";
-import AddHabitScreen from "./addHabitScreen";
-import { StyleSheet, Text, View } from "react-native";
+import { View } from "react-native";
 import theme from "@/styles/Theme";
+import HomeScreen from "./HomeScreen";
+import AddHabitScreen from "./AddHabitScreen";
+import HabitDetailsScreen from "./HabitDetailsScreen";
 
 const Tab = createBottomTabNavigator();
 

@@ -1,6 +1,5 @@
 import TabNavigator from "@/tabs/TabNavigator";
 import { StyleSheet, Text, View } from "react-native";
-import theme from "./styles/Theme";
 import { SQLiteProvider } from "expo-sqlite/build/hooks";
 
 export default function App() {
