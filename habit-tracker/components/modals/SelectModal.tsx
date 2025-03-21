@@ -12,19 +12,16 @@ import {
   FlatList,
 } from "react-native";
 import { Text } from "@components/Text";
-import { useForm, Controller } from "react-hook-form";
 import theme from "@/styles/Theme";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 
 type SelectOption = {
   label: string;
   value: string | number;
 };
 
-// Props do componente
 type SelectModalProps = {
   options: SelectOption[];
-  onSelect: (value: SelectOption) => void;
+  onSelect: (value: string | number) => void;
   selectedValue?: string | number;
   placeholder?: string;
 };
@@ -33,19 +30,20 @@ export const SelectModal = ({
   options,
   onSelect,
   selectedValue,
-  placeholder = "Selecione uma opção",
+  placeholder = "Select a option",
 }: SelectModalProps) => {
   const [modalVisible, setModalVisible] = useState(false);
-  
-  // Encontra o label da opção selecionada
-  const selectedOption = options.find(option => option.value === selectedValue);
+
+  const selectedOption = options.find(
+    (option) => option.value === selectedValue
+  );
   const displayText = selectedOption ? selectedOption.label : placeholder;
 
   const renderItem = ({ item }: { item: SelectOption }) => (
     <TouchableOpacity
       style={styles.option}
       onPress={() => {
-        onSelect(item);
+        onSelect(item.value);
         setModalVisible(false);
       }}
     >
@@ -55,7 +53,6 @@ export const SelectModal = ({
 
   return (
     <View style={styles.container}>
-      {/* Botão que abre o modal */}
       <TouchableOpacity
         style={styles.selectButton}
         onPress={() => setModalVisible(true)}
@@ -63,7 +60,6 @@ export const SelectModal = ({
         <Text style={styles.selectButtonText}>{displayText}</Text>
       </TouchableOpacity>
 
-      {/* Modal */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -92,34 +88,36 @@ export const SelectModal = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
+    width: "100%",
   },
   selectButton: {
-    padding: 10,
+    marginVertical: 12,
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
+    padding: 9,
+    borderColor: "white",
+    color: "white",
+    borderRadius: 10,
   },
   selectButtonText: {
-    fontSize: 16,
+    fontSize: 14,
   },
   modalOverlay: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    backgroundColor: 'white',
+    backgroundColor: theme.colors.darker_background,
     borderRadius: 10,
     padding: 20,
-    width: '80%',
-    maxHeight: '80%',
+    width: "80%",
+    maxHeight: "80%",
   },
   option: {
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: "#eee",
   },
   optionText: {
     fontSize: 16,
@@ -127,12 +125,11 @@ const styles = StyleSheet.create({
   closeButton: {
     marginTop: 20,
     padding: 10,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: theme.colors.primary,
     borderRadius: 5,
-    alignItems: 'center',
+    alignItems: "center",
   },
   closeButtonText: {
     fontSize: 16,
-    color: '#333',
   },
 });

@@ -85,7 +85,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginVertical: 12,
-    marginLeft: 12
   },
   button: {
     width: 40,
@@ -105,14 +104,15 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   input: {
-    width: 80,
+    width: 50,
     height: 40,
     borderWidth: 1,
-    borderColor: theme.colors.primary,
-    borderRadius: 5,
+    borderColor: theme.colors.card,
+    borderRadius: 10,
     textAlign: "center",
     color: "white",
-    fontSize: 16,
+    fontSize: 14,
+    padding: 9,
   },
   inputDisabled: {
     backgroundColor: "white",

@@ -8,7 +8,6 @@ const theme = {
     darker_background: "#222222",
     card: "#FFFFFF",
     text: "#F2F2F2",
-    text_2: '#F2F2F2',
     danger: "#FF3D00",
   },
   fontSizes: {

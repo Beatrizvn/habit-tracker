@@ -26,17 +26,17 @@ export function TextInput({ labelText, ...rest }: ThemedTextInputProps) {
 const styles = StyleSheet.create({
   input: {
     height: 40,
-    margin: 12,
+    marginVertical: 12,
     borderWidth: 1,
     padding: 10,
     borderColor: "white",
     color: "white",
+    borderRadius: 10,
   },
   inputFocused: {
     borderColor: theme.colors.primary,
   },
   text: {
-    marginLeft: 12,
     color: theme.colors.text,
   },
 });
