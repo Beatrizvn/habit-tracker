@@ -13,12 +13,14 @@ import { NumberInput } from "@components/NumberInput";
 import { SelectModal } from "@components/modals/SelectModal";
 import { habitCategories, habitGoals } from "types/options";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import SelectWeekDays from "@components/SelectWeekDays";
 
 export default function AddHabitScreen() {
   const db = useSQLiteContext();
 
   const [goalCountDisabled, setGoalCountDisabled] = useState(true);
   const [open, setOpen] = useState(false);
+  const [isChecked, setChecked] = useState(false);
 
   const {
     control,
@@ -132,7 +134,7 @@ export default function AddHabitScreen() {
                   setOpen(true);
                 }}
               >
-                <Text>{value ? value.toString() : 'Select a hour'}</Text>
+                <Text>{value ? value.toString() : "Select a hour"}</Text>
               </Pressable>
               {open && (
                 <DateTimePicker
@@ -151,8 +153,21 @@ export default function AddHabitScreen() {
           )}
           name="hour"
         />
-        {errors.hour && ( <Text style={styles.errorWarning}>This is required.</Text> )}
-        <Button title="Submit" onPress={handleSubmit(onSubmit)} />
+        {errors.hour && (
+          <Text style={styles.errorWarning}>This is required.</Text>
+        )}
+        <Text style={styles.subLabel}>Days</Text>
+        <Controller
+          control={control}
+          rules={{ required: true }}
+          render={({ field: { value, onChange } }) => (
+            <SelectWeekDays onSelect={onChange} selectedValue={value} />
+          )}
+          name="days"
+        />
+        <View style={styles.button}>
+          <Button color={theme.colors.gold} title="Create Habit" onPress={handleSubmit(onSubmit)} />
+        </View>
       </View>
     </ScreenLayout>
   );
@@ -160,9 +175,13 @@ export default function AddHabitScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 12,
+    margin: 10,
   },
   label: {
+    color: theme.colors.text,
+  },
+  subLabel: {
+    fontSize: 12,
     color: theme.colors.text,
   },
   goal_group: {
@@ -189,4 +208,8 @@ const styles = StyleSheet.create({
     color: "white",
     borderRadius: 10,
   },
+  button: {
+    alignItems: 'center',
+    margin: 12,
+  }
 });
