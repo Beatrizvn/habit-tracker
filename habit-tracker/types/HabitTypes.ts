@@ -1,11 +1,11 @@
 export type Habit = {
-  id: number,
+  id?: number,
   name: string,
   description: string,
   goal: "daily" | "weekly" | "monthly",
   goal_count: number,
   days: string,
-  hour: Date,
+  hour?: Date,
   category: string,
   is_completed?: string;
 };

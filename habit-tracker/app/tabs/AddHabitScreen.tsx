@@ -3,7 +3,7 @@ import { Text } from "@components/Text";
 import { useSQLiteContext } from "expo-sqlite/build/hooks";
 import { TextInput } from "@components/TextInput";
 import { useForm, Controller } from "react-hook-form";
-import { Button, View } from "react-native";
+import { Button, Pressable, View } from "react-native";
 import { defaultHabit } from "types/HabitDefault";
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
@@ -31,7 +31,6 @@ export default function AddHabitScreen() {
 
   const onSubmit = (data: Habit) => {
     console.log(data);
-    // Aqui você pode salvar no SQLite e agendar notificações
   };
 
   return (
@@ -83,6 +82,9 @@ export default function AddHabitScreen() {
               name="goal"
             />
           </View>
+          {errors.goal && (
+            <Text style={styles.errorWarning}>This is required.</Text>
+          )}
           <View style={styles.goal_count}>
             <Text style={styles.label}>Quantity</Text>
             <Controller
@@ -104,6 +106,7 @@ export default function AddHabitScreen() {
         <Text style={styles.label}>Category</Text>
         <Controller
           control={control}
+          rules={{ required: true }}
           render={({ field: { value, onChange } }) => (
             <SelectModal
               options={habitCategories}
@@ -113,12 +116,24 @@ export default function AddHabitScreen() {
           )}
           name="category"
         />
+        {errors.category && (
+          <Text style={styles.errorWarning}>This is required.</Text>
+        )}
         <Text style={styles.label}>Reminder</Text>
         <Controller
           control={control}
+          rules={{ required: true }}
           render={({ field: { value, onChange } }) => (
             <>
-              <Button title={value.toString()} onPress={() => { setValue("hour", new Date(value)); setOpen(true); }} />
+              <Pressable
+                style={styles.reminder}
+                onPress={() => {
+                  setValue("hour", value ? new Date(value) : undefined);
+                  setOpen(true);
+                }}
+              >
+                <Text>{value ? value.toString() : 'Select a hour'}</Text>
+              </Pressable>
               {open && (
                 <DateTimePicker
                   value={value || new Date()}
@@ -136,6 +151,7 @@ export default function AddHabitScreen() {
           )}
           name="hour"
         />
+        {errors.hour && ( <Text style={styles.errorWarning}>This is required.</Text> )}
         <Button title="Submit" onPress={handleSubmit(onSubmit)} />
       </View>
     </ScreenLayout>
@@ -161,7 +177,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   errorWarning: {
-    marginLeft: 12,
+    marginLeft: 10,
+    marginBottom: 12,
     color: theme.colors.danger,
+  },
+  reminder: {
+    marginVertical: 12,
+    borderWidth: 1,
+    padding: 9,
+    borderColor: "white",
+    color: "white",
+    borderRadius: 10,
   },
 });
