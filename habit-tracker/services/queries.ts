@@ -38,7 +38,7 @@ export const getWeeklyHabitsForTracker = async (db: SQLiteDatabase) => {
   const startOfWeek = moment().startOf('isoWeek').format('YYYY-MM-DD'); 
   const endOfWeek = moment().endOf('isoWeek').format('YYYY-MM-DD'); 
 
-  const habits = await db.getAllAsync('SELECT * FROM habits');
+  const habits = await db.getAllAsync('SELECT * FROM habits') as Habit[];
 
   const habitsWithDays = await Promise.all(
     habits.map(async (habit: Habit) => {
@@ -65,7 +65,7 @@ export const getWeeklyHabitsForTracker = async (db: SQLiteDatabase) => {
       return {
         id: habit.id,
         name: habit.name,
-        category: habit.categories,
+        category: habit.category,
         days,
       };
     })

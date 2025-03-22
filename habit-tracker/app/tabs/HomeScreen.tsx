@@ -25,10 +25,11 @@ export default function HomeScreen() {
   const onClick = (habit_id: number, isMark: boolean) => {
     const result = async () => {
       try {
-        await markAsCompleted(db, habit_id);
         const mark = isMark
           ? await markAsCompleted(db, habit_id)
           : await unMarkAsCompleted(db, habit_id);
+        const updatedHabits = await getHabits(db); 
+        setHabits(updatedHabits);
         return mark;
       } catch (error) {
         console.error("Error in onClick:", error);

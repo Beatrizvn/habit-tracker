@@ -1,25 +1,29 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Text } from './Text';
-import theme from '@/styles/Theme';
-import { HabitTracker } from 'types/HabitTypes';
+import React from "react";
+import { View, StyleSheet } from "react-native";
+import { Text } from "./Text";
+import theme from "@/styles/Theme";
+import { HabitTracker } from "types/HabitTypes";
 
-const HabitTrackerItem = ({ name, category, days }: HabitTracker ) => {
-  const weekDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+const HabitTrackerItem = ({ name, category, days }: HabitTracker) => {
+  const weekDays = ["M", "T", "W", "T", "F", "S", "S"];
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
         {name} - {category}
       </Text>
-      <Text style={styles.subtitle} >This Week</Text>
+      <Text style={styles.subtitle}>This Week</Text>
       <View style={styles.daysContainer}>
         {weekDays.map((day, index) => (
           <View key={index} style={styles.dayWrapper}>
             <View
               style={[
                 styles.circle,
-                { backgroundColor: days[index] ? theme.colors.primary : theme.colors.lighter_background },
+                {
+                  backgroundColor: days[index]
+                    ? theme.colors.primary
+                    : theme.colors.lighter_background,
+                },
               ]}
             />
             <Text style={styles.dayText}>{day}</Text>
@@ -41,20 +45,20 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
   subtitle: {
     fontSize: 12,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 5,
   },
   daysContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   dayWrapper: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   circle: {
     width: 30,

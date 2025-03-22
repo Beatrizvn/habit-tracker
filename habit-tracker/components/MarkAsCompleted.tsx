@@ -27,10 +27,10 @@ export const MarkAsCompleted = ({ habit, onClick }: MarkAsCompletedProps) => {
       <View style={styles.container}>
         <View style={{ flex: 3 }}>
           <Text type="subtitle">
-            {habit.name} - {habit.categories}
+            {habit.name} - {habit.category}
           </Text>
           <Text>
-            {habit.goal?.toUpperCase()} - {habit.reminders}
+            {habit.goal?.toUpperCase()} 
           </Text>
         </View>
         <Checkbox

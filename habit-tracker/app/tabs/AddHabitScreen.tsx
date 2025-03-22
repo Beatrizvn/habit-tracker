@@ -14,6 +14,7 @@ import { NumberInput } from "@components/NumberInput";
 import { SelectModal } from "@components/modals/SelectModal";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { habitCategories, habitGoals } from "types/options";
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default function AddHabitScreen() {
   const db = useSQLiteContext();
@@ -113,8 +114,15 @@ export default function AddHabitScreen() {
               selectedValue={value}
             />
           )}
-          name="categories"
+          name="category"
         />
+        {/* <Controller
+          control={control}
+          render={({ field: { value, onChange } }) => (
+            <DateTimePicker mode="time" value={value} onChange={onChange} />
+          )}
+          name="reminders"
+        /> */}
         <Button title="Submit" onPress={handleSubmit(onSubmit)} />
       </SafeAreaView>
     </ScreenLayout>
