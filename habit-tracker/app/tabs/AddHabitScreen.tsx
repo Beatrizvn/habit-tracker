@@ -6,20 +6,19 @@ import { useForm, Controller } from "react-hook-form";
 import { Button, View } from "react-native";
 import { defaultHabit } from "types/HabitDefault";
 import React, { useState } from "react";
-import { Picker } from "@react-native-picker/picker";
 import { StyleSheet } from "react-native";
 import theme from "@/styles/Theme";
 import { Habit } from "types/HabitTypes";
 import { NumberInput } from "@components/NumberInput";
 import { SelectModal } from "@components/modals/SelectModal";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { habitCategories, habitGoals } from "types/options";
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function AddHabitScreen() {
   const db = useSQLiteContext();
 
   const [goalCountDisabled, setGoalCountDisabled] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const {
     control,
@@ -29,17 +28,19 @@ export default function AddHabitScreen() {
   } = useForm({
     defaultValues: defaultHabit,
   });
-  const onSubmit = (data: Habit) => console.log(data);
+
+  const onSubmit = (data: Habit) => {
+    console.log(data);
+    // Aqui você pode salvar no SQLite e agendar notificações
+  };
 
   return (
     <ScreenLayout>
       <Text type="title">Add New Habit</Text>
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <Controller
           control={control}
-          rules={{
-            required: true,
-          }}
+          rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
             <TextInput labelText="Name" onChangeText={onChange} value={value} />
           )}
@@ -50,9 +51,7 @@ export default function AddHabitScreen() {
         )}
         <Controller
           control={control}
-          rules={{
-            maxLength: 100,
-          }}
+          rules={{ maxLength: 100 }}
           render={({ field: { onChange, value } }) => (
             <TextInput
               labelText="Description"
@@ -64,18 +63,16 @@ export default function AddHabitScreen() {
         />
         <View style={styles.goal_group}>
           <View style={styles.goal}>
-            <Text style={styles.label}>{"Goal"}</Text>
+            <Text style={styles.label}>Goal</Text>
             <Controller
               control={control}
-              rules={{
-                required: true,
-              }}
+              rules={{ required: true }}
               render={({ field: { onChange, value } }) => (
                 <SelectModal
                   options={habitGoals}
                   selectedValue={value}
                   onSelect={(itemValue) => {
-                    if (itemValue == "daily") {
+                    if (itemValue === "daily") {
                       setGoalCountDisabled(true);
                       setValue("goal_count", 7);
                     } else setGoalCountDisabled(false);
@@ -116,15 +113,31 @@ export default function AddHabitScreen() {
           )}
           name="category"
         />
-        {/* <Controller
+        <Text style={styles.label}>Reminder</Text>
+        <Controller
           control={control}
           render={({ field: { value, onChange } }) => (
-            <DateTimePicker mode="time" value={value} onChange={onChange} />
+            <>
+              <Button title={value.toString()} onPress={() => { setValue("hour", new Date(value)); setOpen(true); }} />
+              {open && (
+                <DateTimePicker
+                  value={value || new Date()}
+                  mode="time"
+                  display="default"
+                  onChange={(event, selectedDate) => {
+                    setOpen(false);
+                    if (selectedDate) {
+                      onChange(selectedDate.toLocaleTimeString());
+                    }
+                  }}
+                />
+              )}
+            </>
           )}
-          name="reminders"
-        /> */}
+          name="hour"
+        />
         <Button title="Submit" onPress={handleSubmit(onSubmit)} />
-      </SafeAreaView>
+      </View>
     </ScreenLayout>
   );
 }
@@ -149,6 +162,6 @@ const styles = StyleSheet.create({
   },
   errorWarning: {
     marginLeft: 12,
-    color: theme.colors.text,
+    color: theme.colors.danger,
   },
 });

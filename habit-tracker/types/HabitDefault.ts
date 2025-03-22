@@ -7,6 +7,6 @@ export const defaultHabit: Habit = {
   goal: "daily",
   goal_count: 7,
   days: '0',
-  hour: '00:00',
+  hour: new Date(),
   category: "",
 };

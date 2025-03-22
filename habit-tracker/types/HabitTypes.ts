@@ -5,7 +5,7 @@ export type Habit = {
   goal: "daily" | "weekly" | "monthly",
   goal_count: number,
   days: string,
-  hour: string,
+  hour: Date,
   category: string,
   is_completed?: string;
 };
