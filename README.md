@@ -20,7 +20,7 @@ Make sure you have the following installed:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/Beatrizvn/habit-tracker/
+   git clone https://github.com/Beatrizvn/habit-tracker.git
    cd habit-tracker
    ```
 
