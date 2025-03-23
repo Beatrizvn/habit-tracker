@@ -3,10 +3,6 @@
 
 Welcome to **Habit Tracker**, a mobile application built with **React Native** to help users track and manage their daily habits. This is my first project using React Native, created as a learning exercise to practice mobile app development with Expo and modern React Native tools.
 
-# Habit Tracker
-
-Welcome to **Habit Tracker**, a mobile application built with **React Native** to help users track and manage their daily habits. This is my first project using React Native, created as a learning exercise to practice mobile app development with Expo and modern React Native tools.
-
 ## 🚀 Getting Started
 
 ### Prerequisites
