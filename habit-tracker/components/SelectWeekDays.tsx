@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { View, StyleSheet, Pressable } from "react-native";
 import { Text } from "./Text";
 import theme from "@/styles/Theme";
-import { HabitTracker } from "types/HabitTypes";
 
 type SelectWeekDaysProps = {
   onSelect: (value: string) => void;

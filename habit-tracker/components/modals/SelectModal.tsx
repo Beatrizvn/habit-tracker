@@ -2,13 +2,8 @@ import React, { useState } from "react";
 import {
   View,
   TouchableOpacity,
-  TextInput,
   StyleSheet,
-  Button,
-  SafeAreaView,
   Modal,
-  Pressable,
-  Alert,
   FlatList,
 } from "react-native";
 import { Text } from "@components/Text";
@@ -77,7 +72,7 @@ export const SelectModal = ({
               style={styles.closeButton}
               onPress={() => setModalVisible(false)}
             >
-              <Text style={styles.closeButtonText}>Fechar</Text>
+              <Text style={styles.closeButtonText}>Close</Text>
             </TouchableOpacity>
           </View>
         </View>
