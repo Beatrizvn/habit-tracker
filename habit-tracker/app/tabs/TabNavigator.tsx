@@ -5,8 +5,9 @@ import theme from "@/styles/Theme";
 import HomeScreen from "./HomeScreen";
 import AddHabitScreen from "./AddHabitScreen";
 import HabitDetailsScreen from "./HabitDetailsScreen";
+import { RootTabParamList } from "types/Navigation";
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<RootTabParamList>(); 
 
 export default function TabNavigator() {
   return (
@@ -15,9 +16,9 @@ export default function TabNavigator() {
         tabBarIcon: ({ color, size }) => {
           let iconName;
 
-          if (route.name === "Home") iconName = "home";
-          else if (route.name === "Add Habit") iconName = "add-circle";
-          else if (route.name === "Habits Details") iconName = "list";
+          if (route.name === "HomeScreen") iconName = "home";
+          else if (route.name === "AddHabit") iconName = "add-circle";
+          else if (route.name === "HabitsDetails") iconName = "list";
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -29,9 +30,9 @@ export default function TabNavigator() {
         headerShown: false,
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="HomeScreen" component={HomeScreen} />
       <Tab.Screen
-        name=" "
+        name="AddHabit"
         component={AddHabitScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
@@ -50,7 +51,7 @@ export default function TabNavigator() {
           ),
         }}
       />
-      <Tab.Screen name="Habits Details" component={HabitDetailsScreen} />
+      <Tab.Screen name="HabitsDetails" component={HabitDetailsScreen} />
     </Tab.Navigator>
   );
 }

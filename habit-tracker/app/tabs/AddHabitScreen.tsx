@@ -5,7 +5,7 @@ import { TextInput } from "@components/TextInput";
 import { useForm, Controller } from "react-hook-form";
 import { Button, Pressable, View } from "react-native";
 import { defaultHabit } from "types/HabitDefault";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import theme from "@/styles/Theme";
 import { Habit } from "types/HabitTypes";
@@ -14,9 +14,13 @@ import { SelectModal } from "@components/modals/SelectModal";
 import { habitCategories, habitGoals } from "types/options";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import SelectWeekDays from "@components/SelectWeekDays";
+import { createHabit } from "@services/mutations";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { RootTabParamList } from "types/Navigation";
 
 export default function AddHabitScreen() {
   const db = useSQLiteContext();
+  const navigation = useNavigation<NavigationProp<RootTabParamList>>();
 
   const [goalCountDisabled, setGoalCountDisabled] = useState(true);
   const [open, setOpen] = useState(false);
@@ -27,12 +31,24 @@ export default function AddHabitScreen() {
     handleSubmit,
     formState: { errors },
     setValue,
+    reset,
   } = useForm({
     defaultValues: defaultHabit,
   });
 
-  const onSubmit = (data: Habit) => {
-    console.log(data);
+  const [selectedDays, setSelectedDays] = useState("");
+  useEffect(() => {
+    setValue("days", selectedDays);
+  }, [selectedDays]);
+
+  const onSubmit = async (data: Habit) => {
+    try {
+      await createHabit(db, data);
+      reset();
+      navigation.navigate("HomeScreen");
+    } catch (error) {
+      console.error("Error in creation:", error);
+    }
   };
 
   return (
@@ -160,13 +176,20 @@ export default function AddHabitScreen() {
         <Controller
           control={control}
           rules={{ required: true }}
-          render={({ field: { value, onChange } }) => (
-            <SelectWeekDays onSelect={onChange} selectedValue={value} />
+          render={({ field: { value } }) => (
+            <SelectWeekDays onSelect={setSelectedDays} selectedValue={value} />
           )}
           name="days"
         />
+        {errors.days && (
+          <Text style={styles.errorWarning}>This is required.</Text>
+        )}
         <View style={styles.button}>
-          <Button color={theme.colors.gold} title="Create Habit" onPress={handleSubmit(onSubmit)} />
+          <Button
+            color={theme.colors.gold}
+            title="Create Habit"
+            onPress={handleSubmit(onSubmit)}
+          />
         </View>
       </View>
     </ScreenLayout>
@@ -209,7 +232,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   button: {
-    alignItems: 'center',
+    alignItems: "center",
     margin: 12,
-  }
+  },
 });

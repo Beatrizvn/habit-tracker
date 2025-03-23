@@ -8,19 +8,29 @@ import { useEffect, useState } from "react";
 import { FlatList, ScrollView } from "react-native";
 import { Habit } from "types/HabitTypes";
 import { markAsCompleted, unMarkAsCompleted } from "@services/mutations";
+import { useFocusEffect } from "expo-router/build/useFocusEffect";
+import React from "react";
+
 
 export default function HomeScreen() {
   const [habits, setHabits] = useState<Habit[]>([]);
   const db = useSQLiteContext();
 
+  const habitsQuery = async () => {
+    const result = await getHabits(db);
+    setHabits(result);
+  };
+
   useEffect(() => {
     initializeDatabase(db);
-    const habitsQuery = async () => {
-      const result = await getHabits(db);
-      setHabits(result);
-    };
     habitsQuery();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      habitsQuery();
+    }, [])
+  );
 
   const onClick = (habit_id: number, isMark: boolean) => {
     const result = async () => {
@@ -47,7 +57,7 @@ export default function HomeScreen() {
         renderItem={({ item }) => (
           <MarkAsCompleted habit={item} onClick={onClick} />
         )}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item?.id?.toString() ?? ""}
       />
     </ScreenLayout>
   );

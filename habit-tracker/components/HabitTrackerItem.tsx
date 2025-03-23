@@ -1,17 +1,27 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Text } from "./Text";
 import theme from "@/styles/Theme";
 import { HabitTracker } from "types/HabitTypes";
+import { Ionicons } from "@expo/vector-icons";
 
-const HabitTrackerItem = ({ name, category, days }: HabitTracker) => {
+type HabitTrackerItemProps = HabitTracker & {
+  onDelete: () => void;
+};
+
+const HabitTrackerItem = ({ name, category, days, onDelete }: HabitTrackerItemProps) => {
   const weekDays = ["M", "T", "W", "T", "F", "S", "S"];
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>
-        {name} - {category}
-      </Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>
+          {name} - {category}
+        </Text>
+        <TouchableOpacity onPress={onDelete}>
+          <Ionicons name="trash" size={20} color={theme.colors.danger} />
+        </TouchableOpacity>
+      </View>
       <Text style={styles.subtitle}>This Week</Text>
       <View style={styles.daysContainer}>
         {weekDays.map((day, index) => (
@@ -42,6 +52,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 10,
     marginVertical: 5,
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   title: {
     fontSize: 16,
