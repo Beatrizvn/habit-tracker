@@ -45,4 +45,3 @@ Make sure you have the following installed:
 ## 🙌 Acknowledgments
 
 - Thanks to the React Native and Expo communities for their amazing documentation and resources.
-- Inspired by various habit-tracking apps and tutorials.
